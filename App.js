@@ -1,9 +1,11 @@
 import MapView, {Marker} from 'react-native-maps';
-import React, { useState, Component, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Dimensions, SafeAreaView, FlatList, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Settings from './components/Settings.js';
+import List from './components/List.js'
 
 function HomeScreen() {
   const [data, setData] = useState([])
@@ -103,58 +105,6 @@ function HomeScreen() {
   );
 }
 
-function ListScreen() {
-  const [data, setData] = useState([])
-
-  useEffect(() => {
-    // write your code here, it's like componentWillMount
-    getSpinData();
-  }, [])
-
-  function getSpinData() {
-    fetch('https://spin3.sos112.si/javno/assets/data/lokacija.json').then((response) => response.json()).then((json) => {
-      setData(json.value)
-    }).catch((error) => {
-        console.error(error);
-    });
-  }
-
-  const Item = ({ title }) => (
-    <View style={styles.item}>
-      <Text style={styles.title}>{title}</Text>
-    </View>
-  );
-
-  function renderItem({item}) {
-
-    if (item.dogodekNaziv) 
-    {
-      return <Item title={item.dogodekNaziv}/>
-    } 
-    else if (item.intervencijaVrstaNaziv) 
-    {
-      return <Item title={item.intervencijaVrstaNaziv} />
-    }
-  }
-
-  return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={this.data}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
-    </SafeAreaView>
-  )
-}
-
-function SettingsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Settings!</Text>
-    </View>
-  );
-}
 
 const Tab = createBottomTabNavigator();
 
@@ -172,16 +122,16 @@ function MyTabs() {
         }} />
       <Tab.Screen 
         name="List" 
-        component={ListScreen}
+        component={List}
         options={{
           tabBarLabel: "List",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="clipboard-list" color={color} size={size} />
-          ),
+          ),  
         }} />
       <Tab.Screen 
         name="Settings" 
-        component={SettingsScreen}
+        component={Settings}
         options={{
           tabBarLabel: "Settings",
           tabBarIcon: ({ color, size}) => (
