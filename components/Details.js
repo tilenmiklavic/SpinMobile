@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Button } from 'react-native';
 import Moment from 'moment';
 
 export default function Details({route, navigation}) {
@@ -6,29 +6,37 @@ export default function Details({route, navigation}) {
 
     const { item } = route.params;
         return (
-            <View style={styles.item}>
-                <Text style={styles.obcina}>{item.obcinaNaziv} - {item.intervencijaVrstaNaziv}</Text>
-                <Text style={styles.dogodekNaziv}>{item.dogodekNaziv}</Text>
+            <View style={styles.detailsScreen}>
+                <View style={styles.item}>
+                    <Text style={styles.obcina}>{item.obcinaNaziv} - {item.intervencijaVrstaNaziv}</Text>
+                    <Text style={styles.dogodekNaziv}>{item.dogodekNaziv}</Text>
 
-                <View style={styles.timestampsContainer}>
-                    <View style={styles.timestampContainer1}>
-                        <Text style={styles.imeInformacije}>Nastanek</Text>
-                        <Text style={styles.datum}>{Moment(item.nastanekCas).format('D. M. Y')}</Text>
-                        <Text style={styles.ura}>{Moment(item.nastanekCas).format('hh:mm:ss')}</Text>
+                    <View style={styles.timestampsContainer}>
+                        <View style={styles.timestampContainer1}>
+                            <Text style={styles.imeInformacije}>Nastanek</Text>
+                            <Text style={styles.datum}>{Moment(item.nastanekCas).format('D. M. Y')}</Text>
+                            <Text style={styles.ura}>{Moment(item.nastanekCas).format('hh:mm:ss')}</Text>
+                        </View>
+                        <View style={styles.timestampContainer2}>
+                            <Text style={styles.imeInformacije}>Prijava</Text>
+                            <Text style={styles.datum}>{Moment(item.prijavaCas).format('D. M. Y')}</Text>
+                            <Text style={styles.ura}>{Moment(item.prijavaCas).format('hh:mm:ss')}</Text>
+                        </View>
                     </View>
-                    <View style={styles.timestampContainer2}>
-                        <Text style={styles.imeInformacije}>Prijava</Text>
-                        <Text style={styles.datum}>{Moment(item.prijavaCas).format('D. M. Y')}</Text>
-                        <Text style={styles.ura}>{Moment(item.prijavaCas).format('hh:mm:ss')}</Text>
-                    </View>
+
+                    {item.besedilo && item.besedilo.length > 0
+                        ? <Text style={styles.besedilo}>{item.besedilo}</Text>
+                        : <Text style={styles.besediloCenter}>Ni še opisa.</Text>
+                    }
+        
                 </View>
 
-                {item.besedilo && item.besedilo.length > 0
-                    ? <Text style={styles.besedilo}>{item.besedilo}</Text>
-                    : <Text style={styles.besediloCenter}>Ni še opisa.</Text>
-                }
-    
+                <View style={styles.buttonContainer}>
+                    <Button title="Show on map" />
+                    <Button title="Share" />
+                </View>
             </View>
+                
         )
 }
 
@@ -37,6 +45,11 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: '#fff',
       justifyContent: 'center',
+    },
+    detailsScreen: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between'
     },
     item: {
         margin: 20
@@ -94,5 +107,9 @@ const styles = StyleSheet.create({
         marginTop: 30,
         textAlign: 'center',
         color: '#878787'
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly'
     }
 });
