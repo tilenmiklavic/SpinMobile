@@ -1,10 +1,12 @@
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Pressable } from 'react-native';
 import Moment from 'moment';
 
-export default function Details({route, navigation}) {
+export default function Details({route, navigation, value}) {
     Moment.locale('en');
 
-    const { item } = route.params;
+    const { item } = route.params ? route.params : null;
+    console.log(item)
+
         return (
             <View style={styles.detailsScreen}>
                 <View style={styles.item}>
@@ -15,12 +17,12 @@ export default function Details({route, navigation}) {
                         <View style={styles.timestampContainer1}>
                             <Text style={styles.imeInformacije}>Nastanek</Text>
                             <Text style={styles.datum}>{Moment(item.nastanekCas).format('D. M. Y')}</Text>
-                            <Text style={styles.ura}>{Moment(item.nastanekCas).format('hh:mm:ss')}</Text>
+                            <Text style={styles.ura}>{Moment(item.nastanekCas).format('H:mm:ss')}</Text>
                         </View>
                         <View style={styles.timestampContainer2}>
                             <Text style={styles.imeInformacije}>Prijava</Text>
                             <Text style={styles.datum}>{Moment(item.prijavaCas).format('D. M. Y')}</Text>
-                            <Text style={styles.ura}>{Moment(item.prijavaCas).format('hh:mm:ss')}</Text>
+                            <Text style={styles.ura}>{Moment(item.prijavaCas).format('H:mm:ss')}</Text>
                         </View>
                     </View>
 
@@ -32,8 +34,14 @@ export default function Details({route, navigation}) {
                 </View>
 
                 <View style={styles.buttonContainer}>
-                    <Button title="Show on map" />
-                    <Button title="Share" />
+                    <Pressable
+                        style={styles.button}>
+                        <Text style={styles.buttonText}>Show on map</Text>
+                    </Pressable>
+                    <Pressable
+                        style={styles.button}>
+                        <Text style={styles.buttonText}>Share</Text>
+                    </Pressable>
                 </View>
             </View>
                 
@@ -111,5 +119,23 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-evenly'
+    },
+    button: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        margin: 10,
+        borderRadius: 10,
+        elevation: 3,
+        backgroundColor: '#2676EE',
+        flex: 1,
+    },
+    buttonText: {
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        color: 'white',
     }
 });

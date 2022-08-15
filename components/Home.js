@@ -5,6 +5,7 @@ import Details from "./Details";
 import { useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MapView, { Marker } from "react-native-maps";
+import MapDetails from "./MapDetails";
 
 
 export default function HomeScreen() {
@@ -102,7 +103,7 @@ export default function HomeScreen() {
                     resizeMode="contain" />
 
                     <Callout style={styles.callout}>
-                        <TouchableOpacity onPress={() => navigation.navigate('Details', {item: marker})}>
+                        <TouchableOpacity onPress={() => navigation.navigate('MapDetails', {item: marker})}>
                             <View>
                                 <Text style={styles.calloutText}>{marker.obcinaNaziv}</Text>
                                 <Text>{marker.dogodekNaziv}</Text>
@@ -123,7 +124,7 @@ export default function HomeScreen() {
             initialRouteName="Zemljevid"
         >
             <Stack.Screen name="Zemljevid" component={Zemljevid} />
-            <Stack.Screen name="Details" component={Details} />
+            <Stack.Screen name="MapDetails" component={MapDetails} />
         </Stack.Navigator>
     );
 }

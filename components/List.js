@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, FlatList, TouchableOpacity, Button } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, FlatList, TouchableOpacity, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Details from './Details';
@@ -25,13 +25,23 @@ export default function List() {
         });
     }
 
+    function onRefresh() {
+        // console.log("Refreshed")
+    }
+
     const ItemList = () => (
         <SafeAreaView style={styles.container}>
             <FlatList
                 data={data}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
-            />
+                refreshControl={<RefreshControl
+                    colors={["#9Bd35A", "#689F38"]}
+                    onRefresh={onRefresh()} />}
+            >
+                <RefreshControl 
+                    onRefresh={onRefresh}/>
+            </FlatList>
         </SafeAreaView>
     )
 
@@ -71,9 +81,9 @@ export default function List() {
             screenOptions={{
                 headerShown: false
             }}
-            initialRouteName="List"
+            initialRouteName="ItemList"
         >
-            <Stack.Screen name="List" component={ItemList} />
+            <Stack.Screen name="ItemList" component={ItemList} />
             <Stack.Screen name="Details" component={Details} />
         </Stack.Navigator>
     )
